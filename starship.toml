@@ -1,0 +1,177 @@
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# ─────────────────────────────────────────────────────────────
+#  PRESET: "colorful" | "minimalist" | "lotr"
+# ─────────────────────────────────────────────────────────────
+palette = "colorful"
+
+# Extra per preset (le palette cambiano solo i colori, non i simboli):
+#  • minimalist → [character] error_symbol = '[✗](bold err)'
+#  • lotr       → [git_branch] symbol = ' '
+#                 sostituisci '  ·  ' con '  ✦  ' in tutto il file
+
+add_newline = true
+
+format = """
+$username$hostname$directory$git_branch$git_state$git_status\
+$fill\
+$status$cmd_duration\
+$nodejs$bun$deno$python$rust$golang$java$php$c$docker_context\
+$time
+$character"""
+
+[palettes.colorful]
+dir     = "#cdbdff"
+branch  = "#ffc9ad"
+gitstat = "#ffe6a3"
+lang    = "#b6efc9"
+time    = "#aed6ff"
+ok      = "#b6efc9"
+err     = "#ffb3c1"
+conn    = "#8a879a"
+sep     = "#6f6c80"
+
+[palettes.minimalist]
+dir     = "#f4f4f4"
+branch  = "#cfcfcf"
+gitstat = "#a8a8a8"
+lang    = "#9e9e9e"
+time    = "#9e9e9e"
+ok      = "#f4f4f4"
+err     = "#f4f4f4"
+conn    = "#7a7a7a"
+sep     = "#9e9e9e"
+
+[palettes.lotr]
+dir     = "#ecd08a"
+branch  = "#a7dcae"
+gitstat = "#d6e6bd"
+lang    = "#b9d0a0"
+time    = "#cbbd92"
+ok      = "#ecd08a"
+err     = "#f0a585"
+conn    = "#7f8c78"
+sep     = "#8f8158"
+
+# ── Left ─────────────────────────────────────────────────────
+[username]
+show_always = false          # only over SSH or as root
+style_user  = "bold branch"
+style_root  = "bold err"
+format      = "[$user]($style)"
+
+[hostname]
+ssh_only = true
+style    = "conn"
+format   = "[@$hostname]($style) "
+
+[directory]
+style             = "bold dir"
+read_only         = " 󰌾"
+read_only_style   = "err"
+truncation_length = 3
+truncation_symbol = "…/"
+home_symbol       = "~"
+format            = "[$path]($style)[$read_only]($read_only_style) "
+
+[git_branch]
+symbol = " "
+style  = "branch"
+format = "[on ](conn)[$symbol$branch]($style) "
+
+[git_state]
+style  = "gitstat"
+format = "[\\($state( $progress_current/$progress_total)\\)]($style) "
+
+[git_status]
+style      = "gitstat"
+format     = "([$all_status$ahead_behind]($style))"
+conflicted = "=${count} "
+ahead      = "⇡${count} "
+behind     = "⇣${count} "
+diverged   = "⇕⇡${ahead_count}⇣${behind_count} "
+untracked  = "?${count} "
+stashed    = "≡${count} "
+modified   = "!${count} "
+staged     = "+${count} "
+renamed    = "»${count} "
+deleted    = "✘${count} "
+
+[fill]
+symbol = " "
+
+# ── Right ────────────────────────────────────────────────────
+[status]
+disabled = false
+style    = "err"
+symbol   = "✗"
+format   = "[$symbol $status]($style)[  ·  ](sep)"
+
+[cmd_duration]
+min_time = 2000
+style    = "time"
+format   = "[$duration]($style)[  ·  ](sep)"
+
+[nodejs]
+symbol         = " "
+style          = "lang"
+version_format = "${major}.${minor}"
+format         = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[bun]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[deno]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[python]
+symbol         = " "
+style          = "lang"
+version_format = "${major}.${minor}"
+format         = "[$symbol($version)( \\($virtualenv\\))]($style)[  ·  ](sep)"
+
+[rust]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[golang]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[java]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[php]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[c]
+symbol = " "
+style  = "lang"
+format = "[$symbol($version)]($style)[  ·  ](sep)"
+
+[docker_context]
+symbol = " "
+style  = "lang"
+format = "[$symbol$context]($style)[  ·  ](sep)"
+
+[time]
+disabled    = false
+time_format = "%R"
+style       = "time"
+format      = "[ $time]($style)"
+
+# ── Prompt ───────────────────────────────────────────────────
+[character]
+success_symbol = "[❯](bold ok)"
+error_symbol   = "[❯](bold err)"
+vimcmd_symbol  = "[❮](bold ok)"
